@@ -1,0 +1,96 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to bottom, #4A90E2, #8E44AD); /* hypnotic effect */
+    height: 100vh;
+    overflow: hidden;
+}
+
+.sticky-header {
+    background-color: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 10px;
+    position: sticky;
+    top: 0;
+    text-align: center;
+    border-bottom: 45px;
+}
+>
+.trigger-btn {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.trigger-btn:hover {
+    background-color: #ddd;
+}
+
+.credit {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    text-align: center;
+}
+.credit a {
+    color: #0093b1;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+.credit a:hover {
+    text-decoration: underline;
+}
+
+
+.weather-selector {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #fff;
+}
+
+.rain-container {
+    position: relative;
+    width: 100vmin;
+    height: 100vmin;
+    overflow: hidden;
+}
+
+.raindrop {
+    position: absolute;
+    bottom: 100%;
+    background: #00f;
+    opacity: 0.7;
+    width: 2px;
+    height: 10px;
+    animation: fall linear infinite;
+}
+
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh);
+    }
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.drop {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(220deg, #affbff 10%, #0093b1 100%);
+    border-radius: 50% 0% 50% 50%;
+    box-shadow: inset 10px -5px 2px 3px rgba(0, 0, 0, 0.1), inset -15px -5px 2px 5px rgba(255, 255, 255, 0.1);
+    transform: rotate(-45deg);
+    animation: dropAnimation 1s infinite;
+}
