@@ -2,7 +2,7 @@
 
 ⬇️ Preview is below ⬇️
 
-- Click : Dynamic Rain Simulator 2.0 [Preview](#description)
+- Click : Dynamic Rain Simulator 2.0 [Preview](https://kvnbbg.github.io/DynamicRainSimulator2.0/)
 
 # Enhanced Rain Simulator
 
