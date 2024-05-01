@@ -1,4 +1,12 @@
+# Welcome to the EarthDay Celebration !
+
+⬇️ Preview is below ⬇️
+
+- Click : Dynamic Rain Simulator 2.0 [Preview](#description)
+
 # Enhanced Rain Simulator
+
+Dynamic Rain Simulator 2.0 is a part of the [Earth Day Celebration Challenge](https://github.com/Kvnbbg/EarthDayCelebration).
 
 The Enhanced Rain Simulator is a visually appealing web application that simulates raindrops falling on the screen. Built with modern web technologies, it offers a realistic rain effect that can be toggled on and off. The design is responsive, ensuring a seamless experience across various devices.
 
