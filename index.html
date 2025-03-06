@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data:;">
+  <!-- Responsive meta tag -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dynamic Rain & Earth Day Celebration</title>
-  <!-- Tailwind CSS -->
+  <!-- Content Security Policy for additional security -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com;">
+  <title>Dynamic Rain</title>
+  <!-- Tailwind CSS via CDN -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
@@ -49,27 +51,18 @@
     .trigger-btn:hover {
       background-color: #ddd;
     }
-    /* Three.js container centered on screen */
+    /* Container for Three.js simulation */
     #threejs-container {
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 80%;
-      height: 80%;
-      pointer-events: none;
-      display: none;
-      z-index: 2;
-    }
-    /* 2D Rain Container */
-    .rain-container {
-      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
+      display: none;
       z-index: 1;
     }
-    /* Popup and Overlay Styles */
+    /* Popup Styles */
     .popup, .overlay {
       display: none;
     }
@@ -78,12 +71,11 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: #fff;
+      background-color: white;
       padding: 20px;
       border: 1px solid #ccc;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      z-index: 10000;
-      max-width: 90%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
     }
     .popup-content {
       text-align: center;
@@ -100,110 +92,20 @@
       width: 100%;
       height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
-      z-index: 9000;
-    }
-    /* Navbar, Control Panel, Footer, etc. – (reuse same styles as before) */
-    /* (For brevity, these styles are as in previous examples) */
-    /* --- Global Palette and Reset styles below --- */
-    :root {
-      --primary-color: #6f4e37;
-      --secondary-color: #8b5e3c;
-      --accent-color: #d2a679;
-      --highlight-color: #c87533;
-      --background-color: #f7e8d0;
-      --text-color: #4b382a;
-      --card-bg: #ffffff;
-      --border-color: #d2a679;
-      --transition-speed: 0.3s;
-      --border-radius: 8px;
-      --shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      font-family: 'Roboto', sans-serif;
-      background: linear-gradient(135deg, #f7e8d0, #e8d2b8);
-      color: var(--text-color);
-      padding: 20px;
-      min-height: 100vh;
-      line-height: 1.6;
-      transition: background 0.3s ease, color 0.3s ease;
-    }
-    a {
-      text-decoration: none;
-      color: var(--primary-color);
-      transition: color var(--transition-speed) ease;
-    }
-    a:hover, a:focus {
-      color: var(--accent-color);
-    }
-    .container {
-      max-width: 900px;
-      margin: 20px auto;
-      padding: 0 15px;
-    }
-    .card, .quiz-section, .conversion-tool, .notes-card {
-      background-color: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: var(--border-radius);
-      box-shadow: var(--shadow);
-      padding: 20px;
-      margin-bottom: 20px;
-      transition: background-color var(--transition-speed);
-    }
-    header, footer {
-      text-align: center;
-      padding: 10px;
-    }
-    header h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-    }
-    header p {
-      font-size: 1.2em;
-      margin-bottom: 10px;
-    }
-    /* Footer Styles */
-    footer {
-      background: linear-gradient(135deg, var(--accent-color), var(--highlight-color));
-      padding: 20px 10px;
-      text-align: center;
-      color: var(--card-bg);
-      border-radius: var(--border-radius);
-      margin-top: 20px;
-    }
-    footer .social-links a {
-      margin: 0 10px;
-      color: var(--card-bg);
-      transition: transform var(--transition-speed);
-    }
-    footer .social-links a:hover {
-      transform: scale(1.1);
-    }
-    /* Responsive */
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 1.8rem;
-      }
-      header p {
-        font-size: 1rem;
-      }
+      z-index: 999;
     }
   </style>
 </head>
 <body class="relative">
-  <button id="night-mode-toggle">Mode Nuit</button>
-
   <!-- Navbar -->
   <nav class="bg-black bg-opacity-70 text-white sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16 items-center">
+        <!-- Brand -->
         <div class="flex-shrink-0">
           <a href="index.html" class="text-2xl font-bold">Dynamic Rain</a>
         </div>
+        <!-- Desktop Menu -->
         <div class="hidden md:flex space-x-6">
           <a href="index.html" class="hover:text-gray-300">Home</a>
           <a href="SleepSoups.html" class="hover:text-gray-300">Sleep Soups</a>
@@ -211,12 +113,15 @@
           <a href="about.html" class="hover:text-gray-300">About</a>
           <a href="contact.html" class="hover:text-gray-300">Contact</a>
         </div>
+        <!-- Mobile Menu Button -->
         <div class="md:hidden">
           <button id="mobile-menu-button" type="button" class="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-400">
             <span class="sr-only">Toggle navigation</span>
+            <!-- Hamburger icon -->
             <svg id="menu-open" class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
+            <!-- Close icon -->
             <svg id="menu-close" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -224,6 +129,7 @@
         </div>
       </div>
     </div>
+    <!-- Mobile Menu -->
     <div id="mobile-menu" class="md:hidden hidden">
       <div class="px-2 pt-2 pb-3 space-y-1">
         <a href="index.html" class="block px-3 py-2 rounded-md hover:bg-gray-700">Home</a>
@@ -234,15 +140,31 @@
       </div>
     </div>
   </nav>
-  <!-- End Navbar -->
 
   <!-- Header -->
   <header class="sticky-header">
     <h1 class="text-3xl font-bold">Dynamic Rain Simulator</h1>
   </header>
 
+  <!-- Popup Trigger Button -->
+  <div class="p-4 text-center">
+    <button id="showPopup" class="trigger-btn">Start Quiz?</button>
+  </div>
+
+  <!-- Popup Modal -->
+  <div class="popup" id="quizPopup">
+    <div class="popup-content">
+      <p>Do you want to take the quiz?</p>
+      <div class="popup-buttons">
+        <button id="yesButton">Yes</button>
+        <button id="noButton">No</button>
+      </div>
+    </div>
+  </div>
+  <div class="overlay" id="popupOverlay"></div>
+
   <!-- Control Panel -->
-  <section class="max-w-4xl mx-auto p-4 bg-white bg-opacity-80 rounded-md shadow-md my-4 relative z-50">
+  <section class="max-w-4xl mx-auto p-4 bg-white bg-opacity-80 rounded-md shadow-md my-4 z-50 relative">
     <h2 class="text-xl font-semibold text-gray-800 mb-2">Rain Settings</h2>
     <div class="flex flex-col md:flex-row md:space-x-4">
       <div class="flex-1 mb-2 md:mb-0">
@@ -255,30 +177,37 @@
       </div>
       <div class="flex items-end space-x-4">
         <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" onclick="applyRainSettings()">Apply Settings</button>
-        <button class="trigger-btn px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" onclick="toggleRain()">Toggle Rain (2D)</button>
-        <button class="trigger-btn px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" id="toggle3DBtn" onclick="toggle3DMode()">Toggle 3D Mode</button>
+        <button class="trigger-btn" onclick="toggleRain()">Toggle Rain (2D)</button>
+        <button class="trigger-btn" id="toggle3DBtn" onclick="toggle3DMode()">Toggle 3D Mode</button>
       </div>
     </div>
   </section>
 
   <!-- Containers for Rain -->
-  <!-- 2D Rain Container -->
   <div class="rain-container absolute w-full h-full pointer-events-none"></div>
-  <!-- 3D Rain Container -->
   <div id="threejs-container"></div>
 
-  <!-- Popup for Quiz (example popup for navigation) -->
-  <button id="showPopup" class="mt-4 px-4 py-2 bg-white text-black rounded-full hover:bg-gray-200 transition-all duration-300 focus:outline-none">Start Quiz?</button>
-  <div class="popup" id="quizPopup">
-    <div class="popup-content">
-      <p>Do you want to take the quiz?</p>
-      <div class="popup-buttons">
-        <button id="yesButton">Yes</button>
-        <button id="noButton">No</button>
+  <!-- Share Modals -->
+  <div id="shareConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+    <div class="bg-white rounded-lg shadow-lg max-w-md w-11/12 p-6">
+      <h2 class="text-xl font-bold mb-4 text-gray-800">Share Your Quiz Results</h2>
+      <p class="mb-6 text-gray-700">Yes, you are welcome from EarthDay Celebration website! Would you like to share your quiz results with your friends?</p>
+      <div class="flex justify-end space-x-4">
+        <button id="cancelShareBtn" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">No</button>
+        <button id="confirmShareBtn" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Yes</button>
       </div>
     </div>
   </div>
-  <div class="overlay" id="popupOverlay"></div>
+  <div id="shareMessageModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+    <div class="bg-white rounded-lg shadow-lg max-w-md w-11/12 p-6">
+      <h2 class="text-xl font-bold mb-4 text-gray-800">Share Your Results</h2>
+      <textarea id="shareText" class="w-full border border-gray-300 p-2 rounded mb-4" rows="4" readonly></textarea>
+      <div class="flex justify-end space-x-4">
+        <button id="closeShareBtn" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
+        <button id="copyShareBtn" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Copy to Clipboard</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer class="bg-gradient-to-b from-blue-500 to-purple-700 text-white text-center p-4 fixed bottom-0 w-full">
@@ -291,22 +220,75 @@
 
   <!-- Scripts -->
   <script>
-    "use strict";
-    // Mobile Navbar Toggle
+    /* Mobile Navbar Toggle */
     const menuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
     const menuOpenIcon = document.getElementById('menu-open');
     const menuCloseIcon = document.getElementById('menu-close');
+    
     menuButton.addEventListener('click', () => {
       mobileMenu.classList.toggle('hidden');
       menuOpenIcon.classList.toggle('hidden');
       menuCloseIcon.classList.toggle('hidden');
     });
-
-    // 2D Rain Simulation
+    
+    /* Popup Logic */
+    const showPopupButton = document.getElementById("showPopup");
+    const quizPopup = document.getElementById("quizPopup");
+    const popupOverlay = document.getElementById("popupOverlay");
+    const yesButton = document.getElementById("yesButton");
+    const noButton = document.getElementById("noButton");
+    
+    showPopupButton.addEventListener("click", () => {
+      quizPopup.style.display = "block";
+      popupOverlay.style.display = "block";
+    });
+    
+    yesButton.addEventListener("click", () => {
+      navigateTo("quiz.html");
+    });
+    
+    noButton.addEventListener("click", () => {
+      navigateTo("index.html");
+    });
+    
+    popupOverlay.addEventListener("click", () => {
+      quizPopup.style.display = "none";
+      popupOverlay.style.display = "none";
+    });
+    
+    function navigateTo(url) {
+      if (isValidURL(url)) {
+        try {
+          window.location.href = url;
+        } catch (error) {
+          console.error("Navigation error:", error);
+          alternativeMethod(url);
+        }
+      } else {
+        console.error("Invalid URL:", url);
+      }
+    }
+    
+    function isValidURL(url) {
+      try {
+        new URL(url, window.location.href);
+        return true;
+      } catch (_) {
+        return false;
+      }
+    }
+    
+    function alternativeMethod(url) {
+      console.log("Navigation failed. Using alternative method");
+      window.open(url, "_self");
+    }
+    
+    /* 2D Rain Simulation */
     let raindropCount = 150;
     let speedMultiplier = 1;
     const rainContainer = document.querySelector('.rain-container');
+    
     function createRaindrop() {
       const drop = document.createElement('div');
       drop.style.left = Math.random() * 100 + 'vw';
@@ -324,15 +306,18 @@
       drop.classList.add('raindrop');
       return drop;
     }
+    
     function startRain() {
       rainContainer.innerHTML = '';
       for (let i = 0; i < raindropCount; i++) {
         rainContainer.appendChild(createRaindrop());
       }
     }
+    
     function stopRain() {
       rainContainer.innerHTML = '';
     }
+    
     function toggleRain() {
       if (!is3DMode && rainContainer.children.length === 0) {
         startRain();
@@ -340,6 +325,7 @@
         stopRain();
       }
     }
+    
     function applyRainSettings() {
       raindropCount = parseInt(document.getElementById('raindropCount').value) || 150;
       speedMultiplier = parseFloat(document.getElementById('speedMultiplier').value) || 1;
@@ -347,52 +333,59 @@
         startRain();
       }
     }
-
-    // 3D Rain Simulation with Three.js
+    
+    /* 3D Rain Simulation using three.js */
     let is3DMode = false;
     let threeScene, threeCamera, threeRenderer, threeRainParticles, animationId3D;
     const threeContainer = document.getElementById('threejs-container');
+    
     function init3DRain() {
       try {
-        // Create scene, camera, and renderer
+        // Initialize scene, camera, renderer
         threeScene = new THREE.Scene();
         threeCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         threeRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         threeRenderer.setSize(window.innerWidth, window.innerHeight);
-        // Clear previous children if any
-        while (threeContainer.firstChild) {
-          threeContainer.removeChild(threeContainer.firstChild);
-        }
+        // Clear any previous canvas if present
+        threeContainer.innerHTML = "";
         threeContainer.appendChild(threeRenderer.domElement);
         threeContainer.style.display = 'block';
-        // Create rain geometry and material
+        
+        // Create rain particles geometry
         const rainGeometry = new THREE.BufferGeometry();
         const rainCount = raindropCount;
         const positions = [];
         for (let i = 0; i < rainCount; i++) {
-          positions.push((Math.random() - 0.5) * 200);  // x
+          positions.push((Math.random() - 0.5) * 200); // x
           positions.push(Math.random() * 200);          // y
           positions.push((Math.random() - 0.5) * 200);    // z
         }
         rainGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+        
+        // Create rain material
         const rainMaterial = new THREE.PointsMaterial({
           color: 0xaaaaaa,
-          size: 0.7,
+          size: 0.5,
           transparent: true
         });
+        
+        // Create particle system and add to scene
         threeRainParticles = new THREE.Points(rainGeometry, rainMaterial);
         threeScene.add(threeRainParticles);
-        // Center camera properly
-        threeCamera.position.set(0, 50, 100);
-        // Adjust scene background (transparent to see underlying CSS background)
-        threeRenderer.setClearColor(0x000000, 0);
+        
+        // Adjust camera to center the scene
+        threeCamera.position.set(0, 100, 150);
+        threeCamera.lookAt(0, 100, 0);
+        
+        // Begin animation loop
         animate3D();
       } catch (error) {
         console.error("Error initializing 3D rain:", error);
         alert("3D Rain simulation failed to initialize. Switching back to 2D mode.");
-        toggle3DMode();
+        toggle3DMode(); // Fallback to 2D mode
       }
     }
+    
     function animate3D() {
       animationId3D = requestAnimationFrame(animate3D);
       const positions = threeRainParticles.geometry.attributes.position.array;
@@ -405,6 +398,7 @@
       threeRainParticles.geometry.attributes.position.needsUpdate = true;
       threeRenderer.render(threeScene, threeCamera);
     }
+    
     function stop3DRain() {
       cancelAnimationFrame(animationId3D);
       if (threeRenderer && threeRenderer.domElement) {
@@ -416,83 +410,45 @@
       threeRenderer = null;
       threeRainParticles = null;
     }
+    
     function toggle3DMode() {
       is3DMode = !is3DMode;
       const toggleBtn = document.getElementById('toggle3DBtn');
       if (is3DMode) {
+        // Switch to 3D mode: disable 2D rain and initialize three.js simulation
         stopRain();
         init3DRain();
         toggleBtn.textContent = "Switch to 2D Mode";
       } else {
+        // Revert to 2D mode
         stop3DRain();
         startRain();
         toggleBtn.textContent = "Toggle 3D Mode";
       }
     }
-
-    // Popup (Quiz Navigation) Security and Display
-    const showPopupButton = document.getElementById("showPopup");
-    const quizPopup = document.getElementById("quizPopup");
-    const popupOverlay = document.getElementById("popupOverlay");
-    const yesButton = document.getElementById("yesButton");
-    const noButton = document.getElementById("noButton");
-    showPopupButton.addEventListener("click", () => {
-      quizPopup.style.display = "block";
-      popupOverlay.style.display = "block";
-    });
-    yesButton.addEventListener("click", () => {
-      navigateTo("quiz.html");
-    });
-    noButton.addEventListener("click", () => {
-      navigateTo("index.html");
-    });
-    popupOverlay.addEventListener("click", () => {
-      quizPopup.style.display = "none";
-      popupOverlay.style.display = "none";
-    });
-    function navigateTo(url) {
-      if (isValidURL(url)) {
-        try {
-          window.location.href = url;
-        } catch (error) {
-          console.error("Navigation error:", error);
-          alternativeMethod(url);
-        }
-      } else {
-        console.error("Invalid URL:", url);
-      }
-    }
-    function isValidURL(url) {
-      try {
-        new URL(url, window.location.href);
-        return true;
-      } catch (_) {
-        return false;
-      }
-    }
-    function alternativeMethod(url) {
-      console.log("Navigation failed. Using alternative method");
-      window.open(url, "_self");
-    }
-
-    // Share Modals and Clipboard Functions
-    let currentScore = 0;
+    
+    /* Share Modals and Clipboard Functions */
+    let currentScore = 0; // Demo score value; integrate with your quiz logic as needed
     function showSharePopup(score) {
       currentScore = score;
       document.getElementById('shareConfirmationModal').classList.remove('hidden');
     }
+    
     document.getElementById('cancelShareBtn').addEventListener('click', () => {
       document.getElementById('shareConfirmationModal').classList.add('hidden');
     });
+    
     document.getElementById('confirmShareBtn').addEventListener('click', () => {
       document.getElementById('shareConfirmationModal').classList.add('hidden');
       const shareMessage = "Yes, you are welcome from EarthDay Celebration website! I just scored " + currentScore + "/10 on the Earth Day Quiz. Let's work together to protect our planet. Take the quiz here: https://kvnbbg.github.io/EarthDayCelebration/quiz.html";
       document.getElementById('shareText').value = shareMessage;
       document.getElementById('shareMessageModal').classList.remove('hidden');
     });
+    
     document.getElementById('closeShareBtn').addEventListener('click', () => {
       document.getElementById('shareMessageModal').classList.add('hidden');
     });
+    
     document.getElementById('copyShareBtn').addEventListener('click', () => {
       const shareText = document.getElementById('shareText').value;
       if (navigator.clipboard) {
@@ -506,8 +462,8 @@
         alert("Clipboard functionality is not supported in your browser. Please copy the message manually.");
       }
     });
-
-    // Start default 2D rain simulation on page load if not in 3D mode
+    
+    // Start default 2D rain simulation on page load (if not in 3D mode)
     window.addEventListener('load', () => {
       if (!is3DMode) {
         startRain();
