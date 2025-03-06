@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About - Earth Day Celebration</title>
+  <!-- Tailwind CSS via CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    /* Additional custom styles if needed */
+  </style>
+</head>
+<body class="bg-gray-100">
+  <!-- Navbar -->
+  <nav class="bg-black bg-opacity-70 text-white sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        <!-- Brand -->
+        <div class="flex-shrink-0">
+          <a href="index.html" class="text-2xl font-bold">Dynamic Rain</a>
+        </div>
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex space-x-6">
+          <a href="index.html" class="hover:text-gray-300">Home</a>
+          <a href="SleepSoups.html" class="hover:text-gray-300">Sleep Soups</a>
+          <a href="https://kvnbbg.github.io/EarthDayCelebration/" class="hover:text-gray-300">Earth Day Celebration</a>
+          <a href="about.html" class="hover:text-gray-300">About</a>
+          <a href="contact.html" class="hover:text-gray-300">Contact</a>
+        </div>
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden">
+          <button id="mobile-menu-button" type="button" class="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-400">
+            <span class="sr-only">Toggle navigation</span>
+            <!-- Hamburger icon -->
+            <svg id="menu-open" class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <!-- Close icon -->
+            <svg id="menu-close" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden hidden">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <a href="index.html" class="block px-3 py-2 rounded-md hover:bg-gray-700">Home</a>
+        <a href="SleepSoups.html" class="block px-3 py-2 rounded-md hover:bg-gray-700">Sleep Soups</a>
+        <a href="https://kvnbbg.github.io/EarthDayCelebration/" class="block px-3 py-2 rounded-md hover:bg-gray-700">Earth Day Celebration</a>
+        <a href="about.html" class="block px-3 py-2 rounded-md hover:bg-gray-700">About</a>
+        <a href="contact.html" class="block px-3 py-2 rounded-md hover:bg-gray-700">Contact</a>
+      </div>
+    </div>
+  </nav>
+  <!-- End Navbar -->
+
+  <!-- Header -->
+  <header class="bg-blue-600 text-white py-8">
+    <div class="max-w-4xl mx-auto text-center">
+      <h1 class="text-4xl font-bold">About Earth Day Celebration</h1>
+      <p class="mt-4 text-xl">Discover our mission, project background, and the technology behind our sustainable digital experiences.</p>
+    </div>
+  </header>
+  <!-- End Header -->
+
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto p-6">
+    <!-- Our Mission Section -->
+    <section class="mb-8">
+      <h2 class="text-3xl font-semibold text-gray-800 mb-4">Our Mission</h2>
+      <p class="text-gray-700 mb-4">
+        At Earth Day Celebration, our mission is to promote environmental awareness and encourage sustainable practices through engaging digital experiences.
+      </p>
+      <p class="text-gray-700">
+        We believe every small effort counts towards protecting our planet and strive to inspire positive change through creative technology.
+      </p>
+    </section>
+
+    <!-- About the Project Section -->
+    <section class="mb-8">
+      <h2 class="text-3xl font-semibold text-gray-800 mb-4">About the Project</h2>
+      <p class="text-gray-700 mb-4">
+        This website combines a dynamic rain simulator and a guide for 7 sleep-inducing soups. The rain simulation is designed to provide a calming, immersive experience, while the sleep soups guide offers natural recipes inspired by traditional Chinese medicine.
+      </p>
+      <p class="text-gray-700">
+        The project is part of a larger effort to celebrate Earth Day and promote sustainable living through innovative, interactive web applications.
+      </p>
+    </section>
+
+    <!-- Technology Used Section -->
+    <section class="mb-8">
+      <h2 class="text-3xl font-semibold text-gray-800 mb-4">Technology Used</h2>
+      <ul class="list-disc list-inside text-gray-700 mb-4">
+        <li><strong>HTML5</strong> & <strong>CSS3</strong> for structure and design.</li>
+        <li><strong>Tailwind CSS</strong> for fast, responsive, utility-first styling.</li>
+        <li><strong>JavaScript</strong> for interactive features and dynamic content.</li>
+        <li><strong>Three.js</strong> for the 3D rain simulation experience.</li>
+      </ul>
+      <p class="text-gray-700">
+        These modern technologies allow us to build engaging, responsive, and visually appealing web experiences that work smoothly on any device.
+      </p>
+    </section>
+
+    <!-- About the Author Section -->
+    <section class="mb-8">
+      <h2 class="text-3xl font-semibold text-gray-800 mb-4">About the Author</h2>
+      <p class="text-gray-700 mb-4">
+        This project was created by Kevin Marville, a passionate web developer and environmental advocate. With a focus on sustainability and innovative design, Kevin aims to merge technology with positive environmental impact.
+      </p>
+      <p class="text-gray-700">
+        Learn more about his work and connect with him through the links below:
+      </p>
+      <div class="mt-4">
+        <a href="https://bsky.app/profile/techandstream.bsky.social" class="text-blue-600 hover:underline mr-4" target="_blank">Bluesky</a>
+        <a href="https://my.bio/kvnbbg" class="text-blue-600 hover:underline mr-4" target="_blank">My Bio</a>
+        <a href="https://github.com/Kvnbbg" class="text-blue-600 hover:underline" target="_blank">GitHub</a>
+      </div>
+    </section>
+
+    <!-- Additional Resources Section -->
+    <section class="mb-8">
+      <h2 class="text-3xl font-semibold text-gray-800 mb-4">Additional Resources</h2>
+      <p class="text-gray-700 mb-4">
+        For more information on Earth Day and environmental sustainability, visit these sites:
+      </p>
+      <ul class="list-disc list-inside text-gray-700">
+        <li><a href="https://www.earthday.org/" class="text-blue-600 hover:underline" target="_blank">Earth Day Network</a></li>
+        <li><a href="https://www.epa.gov/earthday" class="text-blue-600 hover:underline" target="_blank">EPA - Earth Day</a></li>
+        <li><a href="https://www.nationalgeographic.com/environment/article/earth-day" class="text-blue-600 hover:underline" target="_blank">National Geographic - Earth Day</a></li>
+      </ul>
+    </section>
+  </main>
+  <!-- End Main Content -->
+
+  <!-- Footer -->
+  <footer class="bg-gradient-to-b from-blue-500 to-purple-700 text-white text-center p-4">
+    <div class="social-links space-x-4">
+      <a href="https://bsky.app/profile/techandstream.bsky.social" target="_blank" class="hover:underline">Bluesky</a>
+      <a href="https://my.bio/kvnbbg" target="_blank" class="hover:underline">Threads</a>
+      <a href="https://kvnbbg.github.io/EarthDayCelebration/" target="_blank" class="hover:underline">Earth Day Celebration</a>
+    </div>
+    <p class="mt-2">&copy; 2025 Kevin Marville. Tous droits réservés.</p>
+  </footer>
+  <!-- End Footer -->
+
+  <!-- Mobile Navbar Toggle Script -->
+  <script>
+    const menuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuOpenIcon = document.getElementById('menu-open');
+    const menuCloseIcon = document.getElementById('menu-close');
+    
+    menuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      menuOpenIcon.classList.toggle('hidden');
+      menuCloseIcon.classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>
