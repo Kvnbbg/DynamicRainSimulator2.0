@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sept Soupes pour Apaiser l’Esprit et Favoriser le Sommeil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ================================
+       Global Variables – Warm Coffee Palette
+       ================================ */
+    :root {
+      --primary-color: #6f4e37; /* Dark coffee */
+      --secondary-color: #8b5e3c; /* Medium coffee */
+      --accent-color: #d2a679;    /* Latte */
+      --highlight-color: #c87533; /* Copper coffee */
+      --background-color: #f7f3e8;  /* Light cream */
+      --text-color: #4b382a;       /* Dark brown text */
+      --card-bg: #ffffff;
+      --border-color: #d2a679;
+      --transition-speed: 0.3s;
+      --border-radius: 8px;
+      --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* ================================
+       Reset & Base Styles
+       ================================ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #f7e8d0, #e8d2b8);
+      color: var(--text-color);
+      padding: 20px;
+      min-height: 100vh;
+      line-height: 1.6;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    a {
+      text-decoration: none;
+      color: var(--primary-color);
+      transition: color var(--transition-speed) ease;
+    }
+    a:hover, a:focus {
+      color: var(--accent-color);
+    }
+    
+    /* ================================
+       Container & Card Styles
+       ================================ */
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    .recipe, .adjuster, .calculator, .notes-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: background-color var(--transition-speed);
+    }
+    header, footer {
+      text-align: center;
+      padding: 10px;
+    }
+    header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+    .recipe h2, .adjuster h2, .calculator h2, .notes-card h2 {
+      text-align: center;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+      cursor: pointer;
+      user-select: none;
+    }
+    .content {
+      margin-top: 10px;
+      display: none;
+    }
+    .content.active {
+      display: block;
+    }
+    h3 {
+      margin-bottom: 10px;
+      color: var(--secondary-color);
+    }
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 10px;
+    }
+    p {
+      margin-bottom: 10px;
+    }
+    /* Checkbox style for marking recipes as tried */
+    .tried-label {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 1em;
+    }
+    input[type="checkbox"] {
+      margin-right: 5px;
+      transform: scale(1.2);
+      vertical-align: middle;
+    }
+    
+    /* ================================
+       Progress Bar
+       ================================ */
+    .progress-container {
+      width: 100%;
+      background: var(--accent-color);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      margin: 20px 0;
+    }
+    .progress-bar {
+      height: 20px;
+      width: 0%;
+      background: var(--highlight-color);
+      transition: width 0.5s ease;
+    }
+    
+    /* ================================
+       Night Mode Styles
+       ================================ */
+    body.night-mode {
+      background: #1e1e1e;
+      color: #f0f0f0;
+    }
+    body.night-mode .recipe,
+    body.night-mode .adjuster,
+    body.night-mode .calculator,
+    body.night-mode .notes-card {
+      background-color: #2d2d2d;
+      border-color: #81c784;
+    }
+    body.night-mode header h1,
+    body.night-mode header p,
+    body.night-mode footer p {
+      color: #f0f0f0;
+    }
+    
+    /* ================================
+       Night Mode Toggle Button
+       ================================ */
+    #night-mode-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      z-index: 1000;
+    }
+    #night-mode-toggle:hover {
+      background-color: var(--accent-color);
+    }
+    
+    /* ================================
+       Responsive Styles
+       ================================ */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.8rem;
+      }
+      header p {
+        font-size: 1rem;
+      }
+      .recipe h2, .adjuster h2, .calculator h2, .notes-card h2 {
+        font-size: 1.5rem;
+      }
+    }
+    
+    /* Footer Styles */
+    footer {
+      background: linear-gradient(135deg, var(--accent-color), var(--highlight-color));
+      padding: 20px 10px;
+      text-align: center;
+      color: var(--card-bg);
+      border-radius: var(--border-radius);
+      margin-top: 20px;
+    }
+    footer .social-links a {
+      margin: 0 10px;
+      color: var(--card-bg);
+      transition: transform var(--transition-speed);
+    }
+    footer .social-links a:hover {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <button id="night-mode-toggle">Mode Nuit</button>
+  
+  <header>
+    <h1>Sept Soupes pour Apaiser l’Esprit et Favoriser le Sommeil</h1>
+    <p>
+      Le sommeil occupe environ un tiers de notre vie. Ces recettes, inspirées de la médecine traditionnelle chinoise, vous aideront à trouver un sommeil réparateur de manière naturelle.
+    </p>
+    <p>
+      Pour obtenir un sommeil de qualité, découvrez ci-dessous chacune des recettes avec ses ingrédients, sa méthode de préparation et ses bienfaits.
+    </p>
+  </header>
+  
+  <!-- Progress Bar for Tried Recipes -->
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  <p id="progressText" style="text-align: center; margin-bottom: 20px;">0 sur 7 recettes essayées</p>
+  
+  <div class="container">
+    <!-- Recipe 1: Soupe Apaisante -->
+    <section class="recipe">
+      <h2 onclick="toggleContent(this)">1. Soupe Apaisante (« 安神汤 »)</h2>
+      <div class="content">
+        <h3>Ingrédients et préparation :</h3>
+        <ul>
+          <li>15 g de lis frais (百合) – cuits à la vapeur</li>
+          <li>1 jaune d’œuf</li>
+          <li>200 ml d’eau pour le mélange initial</li>
+          <li>Une petite quantité de sucre glace</li>
+          <li>50 ml d’eau supplémentaires</li>
+        </ul>
+        <h3>Méthode :</h3>
+        <ol>
+          <li>Cuire à la vapeur 15 g de lis frais.</li>
+          <li>Mélanger le lis cuit avec un jaune d’œuf et 200 ml d’eau.</li>
+          <li>Ajouter un peu de sucre glace et porter le mélange à ébullition.</li>
+          <li>Incorporer 50 ml d’eau supplémentaires.</li>
+          <li>Boire une heure avant le coucher.</li>
+        </ol>
+        <h3>Bienfaits :</h3>
+        <p>
+          Le lis possède des propriétés purifiantes, apaisantes et sédatives. Une consommation régulière aide à calmer l’esprit et favoriser un sommeil profond.
+        </p>
+        <!-- Checkbox to mark recipe as tried -->
+        <label class="tried-label"><input type="checkbox" class="recipe-checkbox"> J’ai essayé cette recette</label>
+      </div>
+    </section>
+    
+    <!-- Recipe 2: Soupe de Sérénité -->
+    <section class="recipe">
+      <h2 onclick="toggleContent(this)">2. Soupe de Sérénité (« 静心汤 »)</h2>
+      <div class="content">
+        <h3>Ingrédients et préparation :</h3>
+        <ul>
+          <li>9 g de chair de longane (龙眼肉)</li>
+          <li>9 g de 【川丹参】 (Dan Shen, racine de Salvia miltiorrhiza)</li>
+        </ul>
+        <h3>Méthode :</h3>
+        <ol>
+          <li>Faire bouillir les deux ingrédients dans environ deux bols d’eau.</li>
+          <li>Obtenir un concentré équivalent à un demi-bol.</li>
+          <li>Prendre 30 minutes avant le coucher.</li>
+        </ol>
+        <h3>Bienfaits :</h3>
+        <p>
+          Cette infusion sédative est idéale pour calmer l’esprit, en particulier pour ceux souffrant de déficience du sang cardiaque.
+        </p>
+        <label class="tried-label"><input type="checkbox" class="recipe-checkbox"> J’ai essayé cette recette</label>
+      </div>
+    </section>
+    
+    <!-- Recipe 3: Soupe aux Graines de Jujube Acide -->
+    <section class="recipe">
+      <h2 onclick="toggleContent(this)">3. Soupe aux Graines de Jujube Acide (« 酸枣仁汤 »)</h2>
+      <div class="content">
+        <h3>Ingrédients et préparation :</h3>
+        <ul>
+          <li>9 g de graines de jujube acide (酸枣仁), écrasées</li>
+        </ul>
+        <h3>Méthode :</h3>
+        <ol>
+          <li>Faire bouillir les graines écrasées dans de l’eau pour préparer une décoction.</li>
+          <li>Consommer une heure avant le coucher chaque soir.</li>
+        </ol>
+        <h3>Bienfaits :</h3>
+        <p>
+          Ces graines inhibent le système nerveux central, procurant un effet calmant et stable, utile contre l’insomnie et l’agitation.
+        </p>
+        <label class="tried-label"><input type="checkbox" class="recipe-checkbox"> J’ai essayé cette recette</label>
+      </div>
+    </section>
+    
+    <!-- Recipe 4: Bouillie Nourrissante pour le Cœur -->
+    <section class="recipe">
+      <h2 onclick="toggleContent(this)">4. Bouillie Nourrissante pour le Cœur (« 养心粥 »)</h2>
+      <div class="content">
+        <h3>Ingrédients et préparation :</h3>
+        <ul>
+          <li>33 g de dang shen (党参)</li>
+          <li>10 dattes rouges dénoyautées (红枣)</li>
+          <li>10 g de mai dong (麦冬)</li>
+          <li>10 g de fu shen (茯神)</li>
+          <li>2000 ml d’eau (pour la décoction)</li>
+          <li>Riz lavé</li>
+          <li>Sucre roux</li>
+        </ul>
+        <h3>Méthode :</h3>
+        <ol>
+          <li>Faire bouillir les herbes et dattes dans 2000 ml d’eau jusqu’à obtenir 500 ml de décoction concentrée.</li>
+          <li>Filtrer et ajouter cette décoction au riz avec de l’eau, puis cuire.</li>
+          <li>Ajouter du sucre roux une fois le riz cuit et consommer chaud.</li>
+        </ol>
+        <h3>Bienfaits :</h3>
+        <p>
+          Cette bouillie nourrit l’énergie vitale et le sang tout en apaisant l’esprit, utile pour les palpitations et l’insomnie.
+        </p>
+        <label class="tried-label"><input type="checkbox" class="recipe-checkbox"> J’ai essayé cette recette</label>
+      </div>
+    </section>
+    
+    <!-- Recipe 5: Lait de Lis et Haricots Verts -->
+    <section class="recipe">
+      <h2 onclick="toggleContent(this)">5. Lait de Lis et Haricots Verts (« 百合绿豆乳 »)</h2>
+      <div class="content">
+        <h3>Ingrédients et préparation :</h3>
+        <ul>
+          <li>500 g de lis (百合)</li>
+          <li>500 g de haricots verts (绿豆)</li>
+          <li>Une petite quantité de sucre glace</li>
+          <li>Un peu de lait</li>
+        </ul>
+        <h3>Méthode :</h3>
+        <ol>
+          <li>Cuire le lis et les haricots verts ensemble jusqu’à obtenir une texture tendre et homogène.</li>
+          <li>Ajouter du lait lors de la consommation.</li>
+        </ol>
+        <h3>Bienfaits :</h3>
+        <p>
+          Ce breuvage aide à clarifier l’esprit et calme l’agitation, facilitant ainsi l’endormissement, surtout en été.
+        </p>
+        <label class="tried-label"><input type="checkbox" class="recipe-checkbox"> J’ai essayé cette recette</label>
+      </div>
+    </section>
+    
+    <!-- Recipe 6: Soupe Tria aux Trois Ingrédients -->
+    <section class="recipe">
+      <h2 onclick="toggleContent(this)">6. Soupe Tria (« 安眠汤 ») aux Trois Ingrédients</h2>
+      <div class="content">
+        <h3>Ingrédients et préparation :</h3>
+        <ul>
+          <li>9 g de graines de jujube acide (酸枣仁)</li>
+          <li>3 g de mai dong (麦冬)</li>
+          <li>3 g de yuan zhi (远志)</li>
+        </ul>
+        <h3>Méthode :</h3>
+        <ol>
+          <li>Faire bouillir ces ingrédients dans 500 ml d’eau.</li>
+          <li>Obtenir 50 ml d’un concentré à prendre avant le coucher.</li>
+        </ol>
+        <h3>Bienfaits :</h3>
+        <p>
+          Leur association crée un effet hypnotique qui favorise un sommeil réparateur.
+        </p>
+        <label class="tried-label"><input type="checkbox" class="recipe-checkbox"> J’ai essayé cette recette</label>
+      </div>
+    </section>
+    
+    <!-- Recipe 7: Soupe de Longane et Graines de Lotus -->
+    <section class="recipe">
+      <h2 onclick="toggleContent(this)">7. Soupe de Longane et Graines de Lotus (« 桂圆莲子汤 »)</h2>
+      <div class="content">
+        <h3>Ingrédients et préparation :</h3>
+        <ul>
+          <li>20 g de longane (桂圆)</li>
+          <li>20 g de graines de lotus (莲子)</li>
+        </ul>
+        <h3>Méthode :</h3>
+        <ol>
+          <li>Cuire ensemble ces ingrédients dans de l’eau pour obtenir une soupe homogène.</li>
+        </ol>
+        <h3>Bienfaits :</h3>
+        <p>
+          Cette soupe nourrit le cœur, calme l’esprit, renforce la rate et tonifie les reins. Recommandée pour les seniors et les personnes d’âge moyen souffrant d’insomnie chronique.
+        </p>
+        <label class="tried-label"><input type="checkbox" class="recipe-checkbox"> J’ai essayé cette recette</label>
+      </div>
+    </section>
+    
+    <!-- Notes complémentaires -->
+    <section class="recipe">
+      <h2 onclick="toggleContent(this)">Notes complémentaires</h2>
+      <div class="content">
+        <ul>
+          <li><strong>Importance du sommeil :</strong> Le document souligne l’importance du sommeil et l’utilité de la médecine traditionnelle chinoise pour réguler naturellement le sommeil.</li>
+          <li><strong>Utilisation régulière :</strong> Une consommation régulière de ces remèdes offre des effets rapides et durables.</li>
+          <li><strong>Adaptation des recettes :</strong> Chaque recette cible des besoins spécifiques (palpitations, insomnie, agitation) et peut être adaptée selon les symptômes individuels.</li>
+        </ul>
+      </div>
+    </section>
+    
+    <!-- Interactive Recipe Adjuster for Soupe Apaisante -->
+    <section class="adjuster">
+      <h2 onclick="toggleContent(this)">Ajusteur de Recette (Soupe Apaisante)</h2>
+      <div class="content">
+        <p>Multiplier les quantités de la Soupe Apaisante pour augmenter ou réduire la portion.</p>
+        <form id="adjusterForm">
+          <label for="multiplier">Facteur multiplicateur :</label>
+          <input type="number" id="multiplier" value="1" min="0.1" step="0.1">
+          <button type="button" onclick="adjustRecipe()">Calculer</button>
+        </form>
+        <div id="adjustedResult" style="margin-top: 15px;"></div>
+      </div>
+    </section>
+    
+    <!-- Simple Math Calculator -->
+    <section class="calculator">
+      <h2 onclick="toggleContent(this)">Calculatrice Mathématique</h2>
+      <div class="content">
+        <input type="text" id="mathInput" placeholder="Entrez une expression mathématique">
+        <button type="button" id="calcBtn" onclick="calculateMath()">Calculer</button>
+        <p id="mathResult"></p>
+      </div>
+    </section>
+    
+    <!-- Notes Card -->
+    <section class="notes-card">
+      <h2 onclick="toggleContent(this)">Mes Notes</h2>
+      <div class="content">
+        <textarea id="notesArea" placeholder="Écrivez vos notes ici..." rows="5" style="width:100%;"></textarea>
+        <button type="button" onclick="saveNotes()">Enregistrer mes notes</button>
+      </div>
+    </section>
+    
+  </div>
+  
+  <footer>
+    <div class="social-links">
+      <a href="https://bsky.app/profile/techandstream.bsky.social" target="_blank">Bluesky</a>
+      <a href="https://my.bio/kvnbbg" target="_blank">Threads</a>
+    </div>
+    <p>&copy; 2025 Kevin Marville. Tous droits réservés.</p>
+  </footer>
+  
+  <script>
+    // Toggle collapsible sections
+    function toggleContent(element) {
+      const content = element.nextElementSibling;
+      content.classList.toggle('active');
+    }
+    
+    // Night Mode Toggle
+    const nightModeToggle = document.getElementById('night-mode-toggle');
+    nightModeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('night-mode');
+      nightModeToggle.textContent = document.body.classList.contains('night-mode') ? 'Mode Jour' : 'Mode Nuit';
+    });
+    
+    // Update progress bar based on recipe checkboxes
+    const recipeCheckboxes = document.querySelectorAll('.recipe-checkbox');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    
+    function updateProgress() {
+      let triedCount = 0;
+      recipeCheckboxes.forEach(cb => {
+        if (cb.checked) triedCount++;
+      });
+      const percent = (triedCount / 7) * 100;
+      progressBar.style.width = percent + '%';
+      progressText.textContent = triedCount + " sur 7 recettes essayées";
+    }
+    
+    recipeCheckboxes.forEach(cb => {
+      cb.addEventListener('change', updateProgress);
+    });
+    
+    // Recipe Adjuster: Adjust quantities for Soupe Apaisante
+    const baseRecipe1 = [
+      { ingredient: "lis frais (百合)", quantity: 15, unit: "g" },
+      { ingredient: "jaune d’œuf", quantity: 1, unit: "" },
+      { ingredient: "eau (mélange initial)", quantity: 200, unit: "ml" },
+      { ingredient: "sucre glace", quantity: null, unit: "une petite quantité" },
+      { ingredient: "eau supplémentaires", quantity: 50, unit: "ml" }
+    ];
+    
+    function adjustRecipe() {
+      const multiplier = parseFloat(document.getElementById('multiplier').value);
+      let resultHTML = "<h3>Quantités ajustées :</h3><ul>";
+      baseRecipe1.forEach(item => {
+        if (item.quantity !== null) {
+          const newQty = (item.quantity * multiplier).toFixed(2);
+          resultHTML += `<li>${newQty} ${item.unit} de ${item.ingredient}</li>`;
+        } else {
+          resultHTML += `<li>${item.unit} de ${item.ingredient}</li>`;
+        }
+      });
+      resultHTML += "</ul>";
+      document.getElementById('adjustedResult').innerHTML = resultHTML;
+    }
+    
+    // Simple Math Calculator
+    function calculateMath() {
+      const expr = document.getElementById('mathInput').value;
+      try {
+        const result = Function('"use strict"; return (' + expr + ')')();
+        document.getElementById('mathResult').textContent = "Résultat : " + result;
+      } catch (error) {
+        document.getElementById('mathResult').textContent = "Expression invalide.";
+      }
+    }
+    
+    // Save and Load Notes (localStorage)
+    function saveNotes() {
+      const notes = document.getElementById('notesArea').value;
+      localStorage.setItem('recipeNotes', notes);
+      alert("Notes sauvegardées !");
+    }
+    
+    window.addEventListener('load', () => {
+      const savedNotes = localStorage.getItem('recipeNotes');
+      if (savedNotes) {
+        document.getElementById('notesArea').value = savedNotes;
+      }
+    });
+  </script>
+</body>
+</html>
