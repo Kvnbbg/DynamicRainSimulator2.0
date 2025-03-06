@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Earth Day Quiz & Cooking Assistant</title>
+  <!-- Tailwind CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary-color: #6f4e37;
+      --secondary-color: #8b5e3c;
+      --accent-color: #d2a679;
+      --highlight-color: #c87533;
+      --background-color: #f7e8d0;
+      --text-color: #4b382a;
+      --card-bg: #ffffff;
+      --border-color: #d2a679;
+      --transition-speed: 0.3s;
+      --border-radius: 8px;
+      --shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #f7e8d0, #e8d2b8);
+      color: var(--text-color);
+      padding: 20px;
+      min-height: 100vh;
+      line-height: 1.6;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    a {
+      text-decoration: none;
+      color: var(--primary-color);
+      transition: color var(--transition-speed) ease;
+    }
+    a:hover, a:focus {
+      color: var(--accent-color);
+    }
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    .card, .quiz-section, .conversion-tool, .notes-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: background-color var(--transition-speed);
+    }
+    header, footer {
+      text-align: center;
+      padding: 10px;
+    }
+    header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+    }
+    .quiz-section h2 {
+      text-align: center;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+    }
+    .instruction-box {
+      max-width: 640px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      transition: box-shadow var(--transition-speed);
+    }
+    .instruction-box:hover {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    .instruction-box p, .instruction-box ul {
+      color: #4a5568;
+    }
+    .instruction-box ul {
+      list-style-type: disc;
+      margin-left: 20px;
+    }
+    /* Form styles */
+    form label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    form .question {
+      margin-bottom: 15px;
+    }
+    form .options {
+      margin-left: 20px;
+    }
+    form .options label {
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    form button {
+      padding: 10px 20px;
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      transition: background var(--transition-speed);
+    }
+    form button:hover {
+      background-color: var(--accent-color);
+    }
+    /* Progress Bar */
+    .progress-container {
+      width: 100%;
+      background: var(--accent-color);
+      border-radius: var(--border-radius);
+      overflow: hidden;
+      margin: 20px 0;
+    }
+    .progress-bar {
+      height: 20px;
+      width: 0%;
+      background: var(--highlight-color);
+      transition: width 0.5s ease;
+    }
+    /* Night Mode */
+    body.night-mode {
+      background: #1e1e1e;
+      color: #f0f0f0;
+    }
+    body.night-mode .card, 
+    body.night-mode .quiz-section, 
+    body.night-mode .conversion-tool, 
+    body.night-mode .notes-card {
+      background-color: #2d2d2d;
+      border-color: #81c784;
+    }
+    body.night-mode header h1,
+    body.night-mode header p,
+    body.night-mode footer p {
+      color: #f0f0f0;
+    }
+    /* Night Mode Toggle Button */
+    #night-mode-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: var(--primary-color);
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      z-index: 1000;
+    }
+    #night-mode-toggle:hover {
+      background-color: var(--accent-color);
+    }
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, var(--accent-color), var(--highlight-color));
+      padding: 20px 10px;
+      text-align: center;
+      color: var(--card-bg);
+      border-radius: var(--border-radius);
+      margin-top: 20px;
+    }
+    footer .social-links a {
+      margin: 0 10px;
+      color: var(--card-bg);
+      transition: transform var(--transition-speed);
+    }
+    footer .social-links a:hover {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <button id="night-mode-toggle">Mode Nuit</button>
+
+  <!-- Navbar -->
+  <nav class="bg-black bg-opacity-70 text-white sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+        <div class="flex-shrink-0">
+          <a href="index.html" class="text-2xl font-bold">Dynamic Rain</a>
+        </div>
+        <div class="hidden md:flex space-x-6">
+          <a href="index.html" class="hover:text-gray-300">Home</a>
+          <a href="SleepSoups.html" class="hover:text-gray-300">Sleep Soups</a>
+          <a href="https://kvnbbg.github.io/EarthDayCelebration/" class="hover:text-gray-300">Earth Day Celebration</a>
+          <a href="about.html" class="hover:text-gray-300">About</a>
+          <a href="contact.html" class="hover:text-gray-300">Contact</a>
+          <a href="quiz.html" class="hover:text-gray-300">Quiz</a>
+        </div>
+        <div class="md:hidden">
+          <button id="mobile-menu-button" type="button" class="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-400">
+            <span class="sr-only">Toggle navigation</span>
+            <svg id="menu-open" class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg id="menu-close" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="mobile-menu" class="md:hidden hidden">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <a href="index.html" class="block px-3 py-2 rounded-md hover:bg-gray-700">Home</a>
+        <a href="SleepSoups.html" class="block px-3 py-2 rounded-md hover:bg-gray-700">Sleep Soups</a>
+        <a href="https://kvnbbg.github.io/EarthDayCelebration/" class="block px-3 py-2 rounded-md hover:bg-gray-700">Earth Day Celebration</a>
+        <a href="about.html" class="block px-3 py-2 rounded-md hover:bg-gray-700">About</a>
+        <a href="contact.html" class="block px-3 py-2 rounded-md hover:bg-gray-700">Contact</a>
+        <a href="quiz.html" class="block px-3 py-2 rounded-md hover:bg-gray-700">Quiz</a>
+      </div>
+    </div>
+  </nav>
+  <!-- End Navbar -->
+
+  <!-- Page Header -->
+  <header>
+    <h1 class="text-3xl font-bold">Earth Day Quiz & Cooking Assistant</h1>
+    <p>
+      Test your knowledge about Earth Day, recipes, science, and physics. Learn more about protecting our planet while sharpening your cooking skills!
+    </p>
+    <p>
+      This quiz is a fork from the original quiz found at https://github.com/Kvnbbg/shiny-dollop.
+    </p>
+  </header>
+
+  <!-- Instruction Box -->
+  <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition">
+    <p class="text-gray-600 mb-4">
+      Test your knowledge about Earth Day and learn more about how you can help protect our planet by taking our quiz!
+    </p>
+    <ul class="list-disc list-inside text-gray-600 mb-4">
+      <li>Answer all the questions to the best of your ability.</li>
+      <li>Click the "Submit" button to see your score.</li>
+      <li>Share your results with your friends and family!</li>
+    </ul>
+  </div>
+
+  <!-- Quiz Form -->
+  <div class="container">
+    <form id="quizForm" class="quiz-section">
+      <h2 class="text-2xl font-semibold mb-4">Quiz Questions</h2>
+      
+      <!-- Question 1 -->
+      <div class="question mb-4">
+        <label>1. Which ingredient is essential for Soothing Soup ('安神汤')?</label>
+        <div class="options">
+          <label><input type="radio" name="q1" value="A" required> A) Lily bulbs</label>
+          <label><input type="radio" name="q1" value="B"> B) Carrots</label>
+          <label><input type="radio" name="q1" value="C"> C) Rice</label>
+          <label><input type="radio" name="q1" value="D"> D) Chicken</label>
+        </div>
+      </div>
+      
+      <!-- Question 2 -->
+      <div class="question mb-4">
+        <label>2. Earth Day is primarily celebrated to:</label>
+        <div class="options">
+          <label><input type="radio" name="q2" value="A" required> A) Protect the environment</label>
+          <label><input type="radio" name="q2" value="B"> B) Host a music festival</label>
+          <label><input type="radio" name="q2" value="C"> C) Celebrate sports</label>
+          <label><input type="radio" name="q2" value="D"> D) Showcase technology</label>
+        </div>
+      </div>
+      
+      <!-- Question 3 -->
+      <div class="question mb-4">
+        <label>3. Which law explains gravity?</label>
+        <div class="options">
+          <label><input type="radio" name="q3" value="A" required> A) Newton's Law of Universal Gravitation</label>
+          <label><input type="radio" name="q3" value="B"> B) Ohm's Law</label>
+          <label><input type="radio" name="q3" value="C"> C) Hooke's Law</label>
+          <label><input type="radio" name="q3" value="D"> D) Boyle's Law</label>
+        </div>
+      </div>
+      
+      <!-- Question 4 -->
+      <div class="question mb-4">
+        <label>4. What is the boiling point of water at sea level in Celsius?</label>
+        <div class="options">
+          <label><input type="radio" name="q4" value="A" required> A) 90°C</label>
+          <label><input type="radio" name="q4" value="B"> B) 95°C</label>
+          <label><input type="radio" name="q4" value="C"> C) 100°C</label>
+          <label><input type="radio" name="q4" value="D"> D) 105°C</label>
+        </div>
+      </div>
+      
+      <!-- Question 5 -->
+      <div class="question mb-4">
+        <label>5. Which conversion factor is approximately correct for grams to ounces?</label>
+        <div class="options">
+          <label><input type="radio" name="q5" value="A" required> A) 1 g = 0.0353 oz</label>
+          <label><input type="radio" name="q5" value="B"> B) 1 g = 0.1 oz</label>
+          <label><input type="radio" name="q5" value="C"> C) 1 g = 0.5 oz</label>
+          <label><input type="radio" name="q5" value="D"> D) 1 g = 1 oz</label>
+        </div>
+      </div>
+      
+      <!-- Question 6 -->
+      <div class="question mb-4">
+        <label>6. Which organization is known for Earth Day events?</label>
+        <div class="options">
+          <label><input type="radio" name="q6" value="A" required> A) Earth Day Network</label>
+          <label><input type="radio" name="q6" value="B"> B) NASA</label>
+          <label><input type="radio" name="q6" value="C"> C) Google</label>
+          <label><input type="radio" name="q6" value="D"> D) FIFA</label>
+        </div>
+      </div>
+      
+      <!-- Question 7 -->
+      <div class="question mb-4">
+        <label>7. Which recipe is also known as '静心汤'?</label>
+        <div class="options">
+          <label><input type="radio" name="q7" value="A" required> A) Serenity Soup</label>
+          <label><input type="radio" name="q7" value="B"> B) Soothing Soup</label>
+          <label><input type="radio" name="q7" value="C"> C) Nourishing Heart Porridge</label>
+          <label><input type="radio" name="q7" value="D"> D) Trio Sleep Soup</label>
+        </div>
+      </div>
+      
+      <!-- Question 8 -->
+      <div class="question mb-4">
+        <label>8. Which element is most abundant in the Earth's crust?</label>
+        <div class="options">
+          <label><input type="radio" name="q8" value="A" required> A) Oxygen</label>
+          <label><input type="radio" name="q8" value="B"> B) Silicon</label>
+          <label><input type="radio" name="q8" value="C"> C) Aluminum</label>
+          <label><input type="radio" name="q8" value="D"> D) Iron</label>
+        </div>
+      </div>
+      
+      <!-- Question 9 -->
+      <div class="question mb-4">
+        <label>9. What does physics primarily study?</label>
+        <div class="options">
+          <label><input type="radio" name="q9" value="A" required> A) Laws of nature</label>
+          <label><input type="radio" name="q9" value="B"> B) History</label>
+          <label><input type="radio" name="q9" value="C"> C) Literature</label>
+          <label><input type="radio" name="q9" value="D"> D) Art</label>
+        </div>
+      </div>
+      
+      <!-- Question 10 -->
+      <div class="question mb-4">
+        <label>10. Which ingredient in the recipes helps calm the mind?</label>
+        <div class="options">
+          <label><input type="radio" name="q10" value="A" required> A) Lily bulbs</label>
+          <label><input type="radio" name="q10" value="B"> B) Spices</label>
+          <label><input type="radio" name="q10" value="C"> C) Sugar</label>
+          <label><input type="radio" name="q10" value="D"> D) Salt</label>
+        </div>
+      </div>
+      
+      <div class="text-center">
+        <button type="submit">Submit Quiz</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Share Modals -->
+  <div id="shareConfirmationModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+    <div class="bg-white rounded-lg shadow-lg max-w-md w-11/12 p-6">
+      <h2 class="text-xl font-bold mb-4 text-gray-800">Share Your Quiz Results</h2>
+      <p class="mb-6 text-gray-700">
+        Yes, you are welcome from EarthDay Celebration website! Would you like to share your quiz results with your friends?
+      </p>
+      <div class="flex justify-end space-x-4">
+        <button id="cancelShareBtn" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">No</button>
+        <button id="confirmShareBtn" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Yes</button>
+      </div>
+    </div>
+  </div>
+  <div id="shareMessageModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
+    <div class="bg-white rounded-lg shadow-lg max-w-md w-11/12 p-6">
+      <h2 class="text-xl font-bold mb-4 text-gray-800">Share Your Results</h2>
+      <textarea id="shareText" class="w-full border border-gray-300 p-2 rounded mb-4" rows="4" readonly></textarea>
+      <div class="flex justify-end space-x-4">
+        <button id="closeShareBtn" class="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Close</button>
+        <button id="copyShareBtn" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Copy to Clipboard</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cooking Assistant Tool: Conversion Tool -->
+  <section class="conversion-tool">
+    <h2>Cooking Assistant Tool: Measurement Converter</h2>
+    <div class="content active">
+      <p>Convert measurements for your cooking preparation.</p>
+      <label for="conversionValue">Enter value:</label>
+      <input type="number" id="conversionValue" class="mt-1 p-2 border rounded w-full" placeholder="e.g., 100">
+      <label for="conversionType">Select conversion type:</label>
+      <select id="conversionType" class="mt-1 p-2 border rounded w-full">
+        <option value="g-to-oz">Grams to Ounces (1 g ≈ 0.0353 oz)</option>
+        <option value="ml-to-cup">Milliliters to Cups (1 ml ≈ 0.00423 cup)</option>
+      </select>
+      <button class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" onclick="convertMeasurement()">Convert</button>
+      <p id="conversionResult" class="mt-4 font-bold"></p>
+    </div>
+  </section>
+
+  <!-- Math Calculator: Cooking Assistant Tool -->
+  <section class="calculator">
+    <h2>Cooking Assistant Tool: Math Calculator</h2>
+    <div class="content">
+      <input type="text" id="mathInput" placeholder="Enter a math expression (e.g., 100*0.0353)" />
+      <button type="button" id="calcBtn" onclick="calculateMath()">Calculate</button>
+      <p id="mathResult"></p>
+    </div>
+  </section>
+
+  <!-- Notes Card -->
+  <section class="notes-card">
+    <h2>My Notes</h2>
+    <div class="content">
+      <textarea id="notesArea" placeholder="Write your notes here..." rows="5" style="width:100%;"></textarea>
+      <button type="button" onclick="saveNotes()">Save Notes</button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="social-links">
+      <a href="https://bsky.app/profile/techandstream.bsky.social" target="_blank">Bluesky</a>
+      <a href="https://my.bio/kvnbbg" target="_blank">Threads</a>
+      <a href="https://kvnbbg.github.io/EarthDayCelebration/" target="_blank">Earth Day Celebration</a>
+    </div>
+    <p>&copy; 2025 Kevin Marville. Tous droits réservés.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Toggle collapsible sections for quiz questions and tools
+    function toggleContent(element) {
+      const content = element.nextElementSibling;
+      content.classList.toggle('active');
+    }
+
+    // Night Mode Toggle
+    const nightModeToggle = document.getElementById('night-mode-toggle');
+    nightModeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('night-mode');
+      nightModeToggle.textContent = document.body.classList.contains('night-mode') ? 'Mode Jour' : 'Mode Nuit';
+    });
+
+    // Language Toggle Functionality
+    function showLanguage(lang) {
+      const languages = ['en', 'zh', 'fr'];
+      languages.forEach(l => {
+        document.getElementById('lang-' + l)?.classList.remove('active');
+      });
+      document.getElementById('lang-' + lang)?.classList.add('active');
+    }
+
+    // Update progress bar based on quiz question checkboxes
+    const recipeCheckboxes = document.querySelectorAll('.recipe-checkbox');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    
+    function updateProgress() {
+      let triedCount = 0;
+      recipeCheckboxes.forEach(cb => {
+        if (cb.checked) triedCount++;
+      });
+      const percent = (triedCount / 7) * 100;
+      progressBar.style.width = percent + '%';
+      progressText.textContent = triedCount + " sur 7 recettes essayées";
+    }
+    
+    recipeCheckboxes.forEach(cb => {
+      cb.addEventListener('change', updateProgress);
+    });
+
+    // Quiz Scoring Functionality
+    let currentScore = 0;
+    const correctAnswers = {
+      q1: "A",
+      q2: "A",
+      q3: "A",
+      q4: "C",
+      q5: "A",
+      q6: "A",
+      q7: "A",
+      q8: "A",
+      q9: "A",
+      q10: "A"
+    };
+
+    document.getElementById('quizForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      currentScore = 0;
+      const formData = new FormData(this);
+      for (let [key, value] of formData.entries()) {
+        if (correctAnswers[key] && value === correctAnswers[key]) {
+          currentScore++;
+        }
+      }
+      // Show share popup with current score
+      showSharePopup(currentScore);
+      alert("Your score is: " + currentScore + "/10");
+    });
+
+    // Share Modals and Clipboard Functions
+    function showSharePopup(score) {
+      currentScore = score;
+      document.getElementById('shareConfirmationModal').classList.remove('hidden');
+    }
+    
+    document.getElementById('cancelShareBtn').addEventListener('click', () => {
+      document.getElementById('shareConfirmationModal').classList.add('hidden');
+    });
+    
+    document.getElementById('confirmShareBtn').addEventListener('click', () => {
+      document.getElementById('shareConfirmationModal').classList.add('hidden');
+      const shareMessage = "Yes, you are welcome from EarthDay Celebration website! I just scored " + currentScore + "/10 on the Earth Day Quiz. Let's work together to protect our planet. Take the quiz here: https://kvnbbg.github.io/EarthDayCelebration/quiz.html";
+      document.getElementById('shareText').value = shareMessage;
+      document.getElementById('shareMessageModal').classList.remove('hidden');
+    });
+    
+    document.getElementById('closeShareBtn').addEventListener('click', () => {
+      document.getElementById('shareMessageModal').classList.add('hidden');
+    });
+    
+    document.getElementById('copyShareBtn').addEventListener('click', () => {
+      const shareText = document.getElementById('shareText').value;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(shareText).then(() => {
+          alert("Message copied to clipboard!");
+        }).catch(err => {
+          console.error("Clipboard copy failed:", err);
+          alert("Failed to copy message. Please copy it manually.");
+        });
+      } else {
+        alert("Clipboard functionality is not supported in your browser. Please copy the message manually.");
+      }
+    });
+
+    // Cooking Assistant Tool: Measurement Converter
+    function convertMeasurement() {
+      const value = parseFloat(document.getElementById('conversionValue').value);
+      const type = document.getElementById('conversionType').value;
+      let result;
+      if (isNaN(value)) {
+        document.getElementById('conversionResult').textContent = "Please enter a valid number.";
+        return;
+      }
+      if (type === "g-to-oz") {
+        result = value * 0.035274;
+        document.getElementById('conversionResult').textContent = value + " grams = " + result.toFixed(2) + " ounces.";
+      } else if (type === "ml-to-cup") {
+        result = value * 0.00422675;
+        document.getElementById('conversionResult').textContent = value + " milliliters = " + result.toFixed(2) + " cups.";
+      }
+    }
+    
+    // Recipe Adjuster: Adjust quantities for Soothing Soup
+    const baseRecipe1 = [
+      { ingredient: "fresh lily bulbs (百合)", quantity: 15, unit: "g" },
+      { ingredient: "egg yolk", quantity: 1, unit: "" },
+      { ingredient: "water for initial mix", quantity: 200, unit: "ml" },
+      { ingredient: "icing sugar", quantity: null, unit: "a small amount" },
+      { ingredient: "additional water", quantity: 50, unit: "ml" }
+    ];
+    
+    function adjustRecipe() {
+      const multiplier = parseFloat(document.getElementById('multiplier').value);
+      let resultHTML = "<h3>Adjusted Quantities:</h3><ul>";
+      baseRecipe1.forEach(item => {
+        if (item.quantity !== null) {
+          const newQty = (item.quantity * multiplier).toFixed(2);
+          resultHTML += `<li>${newQty} ${item.unit} of ${item.ingredient}</li>`;
+        } else {
+          resultHTML += `<li>${item.unit} of ${item.ingredient}</li>`;
+        }
+      });
+      resultHTML += "</ul>";
+      document.getElementById('adjustedResult').innerHTML = resultHTML;
+    }
+    
+    // Simple Math Calculator for Cooking Assistance
+    function calculateMath() {
+      const expr = document.getElementById('mathInput').value;
+      try {
+        const result = Function('"use strict"; return (' + expr + ')')();
+        document.getElementById('mathResult').textContent = "Result: " + result;
+      } catch (error) {
+        document.getElementById('mathResult').textContent = "Invalid expression.";
+      }
+    }
+    
+    // Save and Load Notes using localStorage
+    function saveNotes() {
+      const notes = document.getElementById('notesArea').value;
+      localStorage.setItem('recipeNotes', notes);
+      alert("Notes saved!");
+    }
+    
+    window.addEventListener('load', () => {
+      const savedNotes = localStorage.getItem('recipeNotes');
+      if (savedNotes) {
+        document.getElementById('notesArea').value = savedNotes;
+      }
+      // Default language: Français
+      showLanguage('fr');
+    });
+  </script>
+</body>
+</html>
